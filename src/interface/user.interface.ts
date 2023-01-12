@@ -1,9 +1,9 @@
 interface UserInterface {
-  name: String;
-  email: String;
-  password: String;
-  gender: String;
-  role: Number;
+  name: string;
+  email: string;
+  password: string;
+  gender: string;
+  role: number;
 }
 
 export default UserInterface;

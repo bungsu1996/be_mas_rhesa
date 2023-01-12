@@ -58,6 +58,38 @@ class AdminControllers {
       next(error)
     }
   }
+
+  static async adminLogin(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email, password } = req.body;
+      const findAcc = await AdminModel.findOne({
+        where: {
+          email: email,
+        }
+      });
+
+      if (!findAcc) {
+        res.status(401).json({ message: "EMAIL_NOT_FOUND" })
+      } else {
+        const checkPassword = bcrypt.compareSync(password, findAcc.password);
+        if (!checkPassword) {
+          throw { name: "WRONG_PASSWORD" };
+        }
+      }
+      const token = jwt.sign(
+        {
+          id: findAcc!._id,
+          name: findAcc!.name,
+          email: findAcc!.email,
+          role: findAcc!.role,
+        },
+        process.env.JWT_SECRET_KEY!,
+      );
+      res.status(200).json({ message: "LOGIN_SUCCESS", token: token });
+    } catch (error) {
+      next(error)
+    }
+  }
 }
 
 export default AdminControllers;

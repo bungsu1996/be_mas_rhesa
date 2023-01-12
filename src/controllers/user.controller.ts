@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
 import UserModel from "./../models/user.models";
 
@@ -55,6 +57,39 @@ class UserControllers {
       } else {
         res.status(200).json({ message: result })
       }
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  static async userLogin(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email, password } = req.body;
+      const findAcc = await UserModel.findOne({
+        where: {
+          email: email,
+        }
+      });
+
+      if (!findAcc) {
+        res.status(401).json({ message: "EMAIL_NOT_FOUND" })
+      } else {
+        const checkPassword = bcrypt.compareSync(password, findAcc.password);
+        if (!checkPassword) {
+          throw { name: "WRONG_PASSWORD" };
+        }
+      }
+      const token = jwt.sign(
+        {
+          id: findAcc!._id,
+          name: findAcc!.name,
+          email: findAcc!.email,
+          gender: findAcc!.gender,
+          role: findAcc!.role,
+        },
+        process.env.JWT_SECRET_KEY!,
+      );
+      res.status(200).json({ message: "LOGIN_SUCCESS", token: token });
     } catch (error) {
       next(error)
     }

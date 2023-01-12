@@ -1,8 +1,8 @@
 interface AdminInterface {
-  name: String;
-  email: String;
-  password: String;
-  role: Number;
+  name: string;
+  email: string;
+  password: string;
+  role: number;
 }
 
 export default AdminInterface;

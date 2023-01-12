@@ -53,6 +53,35 @@ class JadwalControllers {
       next(error)
     }
   }
+
+  static async deleteJadwal(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.body;
+      await JadwalModel.findByIdAndDelete(id);
+      res.status(200).json({ message: "JADWAL_HAS_BEEN_DELETED" })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  static async updateJadwal(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const { tanggal, user } = req.body;
+      const parseTanggal = new Date(tanggal).toLocaleDateString();
+      const result = await JadwalModel.findByIdAndUpdate(id, {
+        tanggal: parseTanggal,
+        user: user,
+      }, { new: true })
+      const body = {
+        message: "SUCCESS_UPDATE_JADWAL",
+        data: result
+      }
+      res.status(201).json(body)
+    } catch (error) {
+      next(error)
+    }
+  }
 }
 
 export default JadwalControllers;
