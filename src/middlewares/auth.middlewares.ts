@@ -32,7 +32,7 @@ class AuthMiddlewares {
     const { userId } = req;
     try {
       const result = await AdminModel.findById(userId?.id);
-      if (!result) {
+      if (!result || result.role != 0) {
         res.status(401).json({ message: "REQUIRE_ADMIN_ROLE" });
         return;
       }
@@ -47,6 +47,7 @@ class AuthMiddlewares {
     const { userId } = req;
     try {
       const result = await UserModel.findById(userId?.id);
+      console.log(result, "result")
       if (!result) {
         res.status(401).json({ message: "REQUIRE_USER_ROLE" });
         return;

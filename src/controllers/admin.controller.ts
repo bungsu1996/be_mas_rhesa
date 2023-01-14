@@ -67,7 +67,7 @@ class AdminControllers {
           email: email,
         }
       });
-
+      
       if (!findAcc) {
         res.status(401).json({ message: "EMAIL_NOT_FOUND" })
       } else {

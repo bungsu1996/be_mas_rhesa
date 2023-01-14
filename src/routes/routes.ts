@@ -10,13 +10,17 @@ class Routes {
   public router: Router;
   constructor() {
     this.router = Router();
+    this.beforeAuth();
     this.admins();
     this.users();
   }
+  public beforeAuth = () => {
+    this.router.post("/admins/login", AdminControllers.adminLogin);
+    this.router.post("/admins/create", AdminControllers.createAdmin);
+    this.router.post("/login/user", UserControllers.userLogin);
+  }
   public admins = () => {
-    this.router.get("/admins/login", AdminControllers.adminLogin);
-    this.router.post("/admins/create", AuthMiddlewares.authentication, AdminControllers.createAdmin);
-    this.router.get("/admins/", AuthMiddlewares.authentication, AdminControllers.getAllAdmins);
+    this.router.get("/admins/", AuthMiddlewares.authentication, AuthMiddlewares.isAdmin, AdminControllers.getAllAdmins);
     this.router.get("/admins/:id", AuthMiddlewares.authentication, AdminControllers.getAdmin);
     
     this.router.post("/users/create", AuthMiddlewares.authentication, UserControllers.userCreate);
@@ -33,9 +37,8 @@ class Routes {
     this.router.post("/jadwals/:id", AuthMiddlewares.authentication, JadwalControllers.updateJadwal);
   };
   public users = () => {
-    this.router.post("/login/user", UserControllers.userLogin);
-    this.router.post("/absen/:id", AuthMiddlewares.authentication, AuthMiddlewares.isUser, AbsenController.createAbsen);
-    this.router.get("/jadwals/:id", AuthMiddlewares.authentication, AuthMiddlewares.isUser, JadwalControllers.getJadwals);
+    this.router.post("/absen/:id", AuthMiddlewares.authentication, AbsenController.createAbsen);
+    this.router.get("/jadwals/:id", AuthMiddlewares.authentication, JadwalControllers.getJadwals);
   };
 }
 
