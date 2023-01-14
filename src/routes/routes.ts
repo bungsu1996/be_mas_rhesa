@@ -21,24 +21,24 @@ class Routes {
   }
   public admins = () => {
     this.router.get("/admins/", AuthMiddlewares.authentication, AuthMiddlewares.isAdmin, AdminControllers.getAllAdmins);
-    this.router.get("/admins/:id", AuthMiddlewares.authentication, AdminControllers.getAdmin);
+    this.router.get("/admins/:id", AuthMiddlewares.authentication, AuthMiddlewares.isAdmin, AdminControllers.getAdmin);
     
-    this.router.post("/users/create", AuthMiddlewares.authentication, UserControllers.userCreate);
-    this.router.get("/users/", AuthMiddlewares.authentication, UserControllers.getAllUsers);
-    this.router.get("/users/:id", AuthMiddlewares.authentication, UserControllers.getUser);
+    this.router.post("/users/create", AuthMiddlewares.authentication, AuthMiddlewares.isAdmin, UserControllers.userCreate);
+    this.router.get("/users/", AuthMiddlewares.authentication, AuthMiddlewares.isAdmin, UserControllers.getAllUsers);
+    this.router.get("/users/:id", AuthMiddlewares.authentication, AuthMiddlewares.isAdmin, UserControllers.getUser);
 
-    this.router.get("/absens/", AuthMiddlewares.authentication, AbsenController.getAllAbsen);
+    this.router.get("/absens/", AuthMiddlewares.authentication, AuthMiddlewares.isAdmin, AbsenController.getAllAbsen);
 
-    this.router.post("/jadwals/create", AuthMiddlewares.authentication, JadwalControllers.createJadwal);
-    this.router.get("/jadwals/", AuthMiddlewares.authentication, JadwalControllers.getAllJadwals);
+    this.router.post("/jadwals/create", AuthMiddlewares.authentication, AuthMiddlewares.isAdmin, JadwalControllers.createJadwal);
+    this.router.get("/jadwals/", AuthMiddlewares.authentication, AuthMiddlewares.isAdmin, JadwalControllers.getAllJadwals);
     
-    this.router.get("/jadwals/:id", AuthMiddlewares.authentication, JadwalControllers.getJadwals);
-    this.router.delete("/jadwals/delete", AuthMiddlewares.authentication, JadwalControllers.deleteJadwal);
-    this.router.post("/jadwals/:id", AuthMiddlewares.authentication, JadwalControllers.updateJadwal);
+    this.router.get("/jadwals/:id", AuthMiddlewares.authentication, AuthMiddlewares.isAdmin, JadwalControllers.getJadwals);
+    this.router.delete("/jadwals/delete", AuthMiddlewares.authentication, AuthMiddlewares.isAdmin, JadwalControllers.deleteJadwal);
+    this.router.post("/jadwals/:id", AuthMiddlewares.authentication, AuthMiddlewares.isAdmin, JadwalControllers.updateJadwal);
   };
   public users = () => {
-    this.router.post("/absen/:id", AuthMiddlewares.authentication, AbsenController.createAbsen);
-    this.router.get("/jadwals/:id", AuthMiddlewares.authentication, JadwalControllers.getJadwals);
+    this.router.post("/absen/:id", AuthMiddlewares.authentication, AuthMiddlewares.isUser, AbsenController.createAbsen);
+    this.router.get("/jadwals/:id", AuthMiddlewares.authentication, AuthMiddlewares.isUser, JadwalControllers.getJadwals);
   };
 }
 

@@ -5,7 +5,7 @@ import UserModel from "../models/user.models";
 class AbsenController {
   static async createAbsen(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
+      const { id } = req.body;
       const find = await UserModel.findById(id)
       if (!find) {
         res.status(404).json({ message: "USER_NOT_FOUND" })
