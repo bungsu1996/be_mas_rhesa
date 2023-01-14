@@ -37,7 +37,7 @@ class Routes {
     this.router.post("/jadwals/:id", AuthMiddlewares.authentication, AuthMiddlewares.isAdmin, JadwalControllers.updateJadwal);
   };
   public users = () => {
-    this.router.post("/absen/:id", AuthMiddlewares.authentication, AuthMiddlewares.isUser, AbsenController.createAbsen);
+    this.router.post("/absen/", AuthMiddlewares.authentication, AuthMiddlewares.isUser, AbsenController.createAbsen);
     this.router.get("/jadwals/:id", AuthMiddlewares.authentication, AuthMiddlewares.isUser, JadwalControllers.getJadwals);
   };
 }
