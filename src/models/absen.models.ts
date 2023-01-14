@@ -4,6 +4,7 @@ import AbsenInterface from "./../interface/absen.interface";
 const absenSchema = new Schema(
   {
     user: { type: Schema.Types.ObjectId, ref: "User"},
+    absen: { type: Boolean, default: true },
   },
   {
     timestamps: true,

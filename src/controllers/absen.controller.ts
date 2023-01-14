@@ -6,15 +6,16 @@ class AbsenController {
   static async createAbsen(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.body;
-      const find = await UserModel.findById(id)
+      const find = await UserModel.findById(id);
       if (!find) {
         res.status(404).json({ message: "USER_NOT_FOUND" })
       } else {
         const result = await AbsenModel.create({
-          user: id
+          user: id,
+          absen: true,
         })
         const search = await AbsenModel.findById(result.id).populate({ path: "user", select: "name" })
-        res.status(201).json({ message: "SUCCESS_ABSEN", data: search })
+        res.status(201).json({ message: "SUCCESS_ABSEN", data: search, absen: result.absen })
       }
     } catch (error) {
       next(error)
