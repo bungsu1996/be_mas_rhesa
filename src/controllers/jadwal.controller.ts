@@ -86,6 +86,19 @@ class JadwalControllers {
       next(error)
     }
   }
+
+  static async getJadwalUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const result = await UserModel.findById(id).select("jadwal").populate({ path: "jadwal", select: "tanggal" })
+      if (!result) {
+        res.status(404).json({ message: "USER_NOT_FOUND" })
+      }
+      res.status(200).json({ message: "JADWAL_USER", data: result })
+    } catch (error) {
+      next(error)
+    }
+  }
 }
 
 export default JadwalControllers;
