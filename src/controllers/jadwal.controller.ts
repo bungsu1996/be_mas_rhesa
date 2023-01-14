@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import UserModel from "../models/user.models";
 
 import JadwalModel from "./../models/jadwal.models";
 
@@ -16,6 +17,9 @@ class JadwalControllers {
       } else if (!user || user.length < 1) {
         res.status(500).json({ message: "USER_REQUIRED" })
       } else {
+        await UserModel.findByIdAndUpdate(result.user, {
+          jadwal: result.id
+        }, { new: true })
         const body = {
           message: "SUCCESS_CREATE_JADWAL",
           data: result,

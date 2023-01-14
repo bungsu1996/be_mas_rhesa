@@ -8,6 +8,7 @@ const userSchema = new Schema(
     password: { type: String, required: true },
     gender: { type: String },
     role: { type: Number, default: 1 },
+    jadwal: [{ type: Schema.Types.ObjectId, ref: "Jadwal" }]
   },
   {
     timestamps: true,
