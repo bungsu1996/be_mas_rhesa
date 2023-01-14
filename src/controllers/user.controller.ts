@@ -89,7 +89,7 @@ class UserControllers {
         },
         process.env.JWT_SECRET_KEY!,
       );
-      res.status(200).json({ message: "LOGIN_SUCCESS", token: token });
+      res.status(200).json({ message: "LOGIN_SUCCESS", token: token, data: findAcc, role: findAcc!.role });
     } catch (error) {
       next(error)
     }
