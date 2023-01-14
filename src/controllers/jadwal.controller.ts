@@ -30,7 +30,7 @@ class JadwalControllers {
   static async getAllJadwals(req: Request, res: Response, next: NextFunction) {
     try {
       const result = await JadwalModel.find().populate({ path: "user", select: "name email"});
-      if (!result || result.length < 1) {
+      if (!result) {
         res.status(404).json({ message: "JADWALS_NOT_FOUND" })
       } else {
         res.status(200).json({ message: result })
