@@ -38,7 +38,7 @@ class UserControllers {
   static async getAllUsers(req: Request, res: Response, next: NextFunction) {
     try {
       const result = await UserModel.find();
-      if (!result || result.length < 1) {
+      if (!result) {
         res.status(404).json({ message: "USERS_NOT_FOUND" })
       } else {
         res.status(200).json({ message: result })
