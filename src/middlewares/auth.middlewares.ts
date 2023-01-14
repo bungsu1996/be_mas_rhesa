@@ -47,8 +47,7 @@ class AuthMiddlewares {
     const { userId } = req;
     try {
       const result = await UserModel.findById(userId?.id);
-      console.log(result, "result")
-      if (!result) {
+      if (!result || result.role != 1) {
         res.status(401).json({ message: "REQUIRE_USER_ROLE" });
         return;
       }
