@@ -15,7 +15,7 @@ class Routes {
     this.users();
   }
   public beforeAuth = () => {
-    this.router.post("/admins/login", AdminControllers.adminLogin);
+    this.router.post("/login/admin", AdminControllers.adminLogin);
     this.router.post("/admins/create", AdminControllers.createAdmin);
     this.router.post("/login/user", UserControllers.userLogin);
   }

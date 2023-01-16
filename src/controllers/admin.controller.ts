@@ -67,25 +67,24 @@ class AdminControllers {
           email: email,
         }
       });
-      
-      if (!findAcc) {
+      if (!findAcc || email != findAcc.email) {
         res.status(401).json({ message: "EMAIL_NOT_FOUND" })
       } else {
         const checkPassword = bcrypt.compareSync(password, findAcc.password);
         if (!checkPassword) {
           throw { name: "WRONG_PASSWORD" };
         }
+        const token = jwt.sign(
+          {
+            id: findAcc!._id,
+            name: findAcc!.name,
+            email: findAcc!.email,
+            role: findAcc!.role,
+          },
+          process.env.JWT_SECRET_KEY!,
+        );
+        res.status(200).json({ message: "LOGIN_SUCCESS", token: token, data: findAcc, role: findAcc!.role });
       }
-      const token = jwt.sign(
-        {
-          id: findAcc!._id,
-          name: findAcc!.name,
-          email: findAcc!.email,
-          role: findAcc!.role,
-        },
-        process.env.JWT_SECRET_KEY!,
-      );
-      res.status(200).json({ message: "LOGIN_SUCCESS", token: token });
     } catch (error) {
       next(error)
     }
